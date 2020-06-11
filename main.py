@@ -13,6 +13,9 @@ import random
 import RandomOrderGenerator as rog
 import Aid_Function_Blocks as aid
 import RMS_Construction as rms
+import DML_Construction as dml
+import Production_Simulation as pdc
+
 import numpy as np
 
 """ 
@@ -104,7 +107,7 @@ RMS Production Section
 # #                               RandomComponentGenerator.manufacturing_process_weight, k=10)
 # # print(product_plan)
 
-production_record = rms.rms_production(order_list, variant_general_process_time_array, variant_reconfigure_time_array)
+production_record = pdc.rms_production(order_list, variant_general_process_time_array, variant_reconfigure_time_array)
 print(production_record)
 
 
