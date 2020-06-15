@@ -1,6 +1,7 @@
 """
 This section contains function blocks for making main neat.
 """
+import csv
 
 
 def integer_input(input_num):
@@ -48,13 +49,11 @@ def sequence_list(num):
     numbered_list = [i for i in range(num)]
     return numbered_list
 
-# Equal to len()
-# def list_count(a_list):
-#     count = 0
-#     for elements in a_list:
-#         if elements is not None:
-#             count += 1
-#     return count
+
+def csv_export(file_name, rms_order):
+    with open(file_name, "w", newline='') as file:
+        order = csv.writer(file, delimiter=',')
+        order.writerows(rms_order)
 
 
 

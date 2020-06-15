@@ -10,7 +10,7 @@ def production_time_calculation(last_variant, variant, batch_size, production_ti
         return batch_size * production_time_array[variant] + variant_reconfiguring_time[variant]
 
 
-def rms_production(order_list, production_time_array, variant_reconfiguring_time):
+def rms_production(order_list, production_time_array, variant_reconfiguring_time, profit_time_grade):
     remaining_production_time = 0
     last_variant = 0
     refused_order = 0
@@ -31,9 +31,18 @@ def rms_production(order_list, production_time_array, variant_reconfiguring_time
                 order_list[order].append(18)
             else:
                 current_order_finish_time = order_list[order - 1][4] + order_production_time
-                if current_order_finish_time - order_list[order][0] <= 7.59 * order_production_time:
+                if current_order_finish_time - order_list[order][0] <= profit_time_grade[0] * order_production_time:
                     order_list[order].append(current_order_finish_time)
-                    order_list[order].append(18)
+                    order_list[order].append(4)
+                elif current_order_finish_time - order_list[order][0] <= profit_time_grade[1] * order_production_time:
+                    order_list[order].append(current_order_finish_time)
+                    order_list[order].append(3)
+                elif current_order_finish_time - order_list[order][0] <= profit_time_grade[2] * order_production_time:
+                    order_list[order].append(current_order_finish_time)
+                    order_list[order].append(2)
+                elif current_order_finish_time - order_list[order][0] <= profit_time_grade[3] * order_production_time:
+                    order_list[order].append(current_order_finish_time)
+                    order_list[order].append(1)
                 else:
                     order_list[order].append(order_list[order - 1][4])
                     order_list[order].append(0)

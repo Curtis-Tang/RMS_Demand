@@ -10,13 +10,19 @@ print("---------------------------------------")
 print("\nNow let's set some basic parameter this RMS.\n")
 
 import random
+import numpy as np
 import RandomOrderGenerator as rog
 import Aid_Function_Blocks as aid
 import RMS_Construction as rms
 import DML_Construction as dml
 import Production_Simulation as pdc
 
-import numpy as np
+
+"""
+Profit Define Section
+"""
+profit_gain_grade = (2,    1.5,  1.25, 1,   0)
+profit_time_grade = (2.25, 3.38, 5.06, 7.59)
 
 """ 
 RMS Construction Section
@@ -33,6 +39,7 @@ print("OK. This RMS has " + str(rmt_quantity) + " RMTs.\n")
 ''' An empty process time matrix '''
 rmt_process_time_array = rms.rmt_module_structure(product_variant_num, rmt_quantity)
 rmt_module_number_list = rms.rmt_module_count(rmt_quantity, rmt_process_time_array)
+# print(rmt_module_number_list)
 
 ''' Add values to process time matrix '''
 print("\nNow let's define production time for each module. The unit is seconds.")
@@ -46,10 +53,10 @@ variant_calling_modules = rms.variant_module_identifier(rmt_module_number_list)
 '''Manufacturing time for all variant'''
 variant_process_time_origin = rms.variant_total_process_time_array(rmt_process_time_array, variant_calling_modules)
 '''Random pick manufacturing time'''
-variant_general_process_time_array = rms.variant_shuffle(product_variant_num, variant_process_time_origin)
-print(variant_general_process_time_array)
+rms_process_time_array = rms.variant_shuffle(product_variant_num, variant_process_time_origin)
+print(rms_process_time_array)
 '''Reconfiguration time for each variant'''
-variant_reconfigure_time_array = rms.variant_reconfigure_time(len(variant_general_process_time_array))
+variant_reconfigure_time_array = rms.variant_reconfigure_time(len(rms_process_time_array))
 print("\nRandomly assigned variant reconfiguring time.")
 print(variant_reconfigure_time_array)
 
@@ -77,38 +84,20 @@ print(order_list)
 """
 RMS Production Section
 """
-# # RMS Summary
-#
-# print(order_size)
-# aid.mean_print(mean)
-# aid.boundary_print(order_lower_bond, order_upper_bond)
 
-# # Manufacturing Process List
-# manufacturing_process_kind = ['Cut', 'Mill', 'Bore', 'Drill', 'Turn']
-# manufacturing_process_weight = [100, 50, 35, 15, 100]
-#
-# # order_sequence = [i for i in range(1, order_size + 1)]
-# # print(order_sequence)
-# # product_variant = [random.randint(1, product_variant_num) for i in range(0, order_size)]
-# # print(product_variant)
-# #
-# # combined_order = order_sequence
-# # for i in range(order_size):
-# #     combined_order[i] = {'Sequence': order_sequence[i], 'Variant': product_variant[i]}
-# # print(combined_order)
-#
-# # for i in range(10):
-# #     test = RandomComponentGenerator.gen_uniform(lower_bond, upper_bond)
-# #     print(test)
-# #     i += 1
-# #
-# #
-# # product_plan = random.choices(RandomComponentGenerator.manufacturing_process_kind,
-# #                               RandomComponentGenerator.manufacturing_process_weight, k=10)
-# # print(product_plan)
 
-production_record = pdc.rms_production(order_list, variant_general_process_time_array, variant_reconfigure_time_array)
+production_record = pdc.rms_production(order_list, rms_process_time_array, variant_reconfigure_time_array,
+                                       profit_time_grade)
 print(production_record)
+
+"""
+DML Construction Section
+"""
+
+process_shrinking_ratio_lower_bond = 0.1
+process_shrinking_ratio_upper_bond = 0.5
+dml_process_time_array = dml.process_time_array(rms_process_time_array,
+                                                process_shrinking_ratio_lower_bond, process_shrinking_ratio_upper_bond)
 
 
 """
