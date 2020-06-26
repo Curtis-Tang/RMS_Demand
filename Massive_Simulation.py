@@ -21,3 +21,10 @@ def rms_file_name_generation(rmt_module_number_list, time_span_day, order_size, 
 for i in range(5):
     pass
     # aid.csv_export()
+
+
+rms_feature_summary = [[],[]]
+rms_feature_summary[0] = []
+rms_feature_summary[1] = []
+
+aid.csv_export("test.csv", rms_feature_summary)

@@ -56,17 +56,28 @@ def csv_export(file_name, rms_order):
         order.writerows(rms_order)
 
 
+def empty_list(list_number):
+    a_list = []
+    for i in range(list_number):
+        a_list.append([])
+    return a_list
 
-# Recycle bin
 
-# Failed
-# def int_compare_input_require(smaller, larger):
-#     if smaller < larger:
-#         return True
-#     elif smaller > larger:
-#         return False
-#     else:
-#         print("Identical input.")
-#         smaller = integer_input(input("Please enter another integer: "))
-#         return smaller
-#         int_compare_input_require(smaller, larger)
+def min_location(list):
+    low = list[0][0]
+    location = 0
+    for i in range(len(list)):
+        if low > list[i][0]:
+            low = list[i][0]
+            location = i
+    return location
+
+
+def add_empty_column(a_list):
+    """
+    :param a_list:
+    :return: a_list with an extra 0 at the end.
+    """
+    for i in a_list:
+        i.append(0)
+    return a_list
