@@ -11,7 +11,7 @@ orders with part kinds, mean, and frequency
 # Modules Import
 import random
 import numpy as np
-from tkinter import *
+import Aid_Function_Blocks as aid
 
 
 def gen_uniform(lower_bond, upper_bond):
@@ -20,20 +20,37 @@ def gen_uniform(lower_bond, upper_bond):
 
 
 def gen_random_order_list(order_size, time_span_second, product_variant_num, smallest_mean, largest_mean):
+    variant_count = aid.zero_list(product_variant_num)
+    random_order_list = []
     mean = []
     batch_size = []
-    for variant in range(product_variant_num):
-        mean.append(random.randint(smallest_mean, largest_mean))
 
-    for variant in range(len(mean)):
-        batch_size.append(np.random.poisson(mean[variant], order_size))
-
-    random_order_list = []
     for order_seq in range(order_size):
         random_order_list.append([random.randint(0, int(time_span_second)),  # Order time
                                   random.randint(0, product_variant_num - 1)])  # Order variant
-        random_order_list[order_seq].append(batch_size[random_order_list[order_seq][1]][order_seq])
+
+    for order in range(len(random_order_list)):
+        variant_count[random_order_list[order][1]] += 1
+    print(variant_count)
+
+    for variant in range(product_variant_num):
+        mean.append(random.randint(smallest_mean, largest_mean))
+    print(mean)
+
+    for variant in range(len(mean)):
+        batch_size.append(np.random.poisson(mean[variant], variant_count[variant]))
+    batch_size_convert = []
+    for variant in range(len(batch_size)):
+        batch_size_convert.append(batch_size[variant].tolist())
+    batch_size = batch_size_convert
+    del batch_size_convert
+
+    for order_seq in range(order_size):
+        random_order_list[order_seq].append(batch_size[random_order_list[order_seq][1]][0])
+        del batch_size[random_order_list[order_seq][1]][0]
     random_order_list = sorted(random_order_list)
+
+    print(random_order_list)
     return random_order_list
 
 

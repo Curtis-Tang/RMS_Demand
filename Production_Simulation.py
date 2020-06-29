@@ -86,6 +86,7 @@ def dml_pull_production(order_list, production_time_array, variant_reconfiguring
     order_queue = []
     #  Machine state contains [current variant configure, system free up time point]
     system_state = [0, 0]
+    state_record = []
     system_idle_time = 0
 
     # print(min_batch)
@@ -99,6 +100,7 @@ def dml_pull_production(order_list, production_time_array, variant_reconfiguring
         # print(system_state)
         # print(system_idle_time)
         order_variant = order_list[order][1]
+        state_record.append([order_list[order][1]])
         """ Check system availability before dealing the current order"""
         if system_state[1] < order_list[order][0]:
 
@@ -140,8 +142,8 @@ def dml_pull_production(order_list, production_time_array, variant_reconfiguring
                 if not order_queue_prior_variant(order_queue, stock_standard, request_stock, min_batch):
                     break
 
+        """ Record idle time when system finished all previous order. Update system free-up time point. """
         if system_state[1] < order_list[order][0]:
-            # Record idle time when system finished all previous order. Update system free-up time point.
             system_idle_time += order_list[order][0] - system_state[1]
             system_state[1] = order_list[order][0]
 
@@ -240,3 +242,6 @@ def queue_delay(queue, delay_time):
     for queue_order in range(len(queue)):
         queue[queue_order][3] += delay_time
     return queue
+
+
+

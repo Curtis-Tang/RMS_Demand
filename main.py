@@ -21,8 +21,9 @@ import Production_Simulation as pdc
 """
 Profit Define Section
 """
-profit_gain_grade = (2,    1.5,  1.25, 1,   0)
-profit_time_grade = (2.25, 3.38, 5.06, 7.59)
+profit_gain_grade = (2.5,  2,    1.5,  1.25, 1,   0)
+print(len(profit_gain_grade))
+profit_time_grade = (2.25, 3.38, 5.06, 7.59, 11.4)
 
 """ 
 RMS Construction Section

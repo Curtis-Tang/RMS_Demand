@@ -50,6 +50,11 @@ def sequence_list(num):
     return numbered_list
 
 
+def zero_list(num):
+    numbered_list = [0 for i in range(num)]
+    return numbered_list
+
+
 def csv_export(file_name, rms_order):
     with open(file_name, "w", newline='') as file:
         order = csv.writer(file, delimiter=',')
