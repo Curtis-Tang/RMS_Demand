@@ -115,9 +115,9 @@ def variant_shuffle(product_variant_num, variant_general_process_time_array):
     else:
         random.shuffle(variant_general_process_time_array)
         variant_process_time_array = variant_general_process_time_array[:product_variant_num]
-        print("Your have " + str(product_variant_num) + " kinds of product.\nThis RMS can handle up to "
-              + str(len(variant_general_process_time_array)) + " product variants.\n"
-                                                               "Assigned variant production time randomly.")
+        # print("Your have " + str(product_variant_num) + " kinds of product.\nThis RMS can handle up to "
+        #       + str(len(variant_general_process_time_array)) + " product variants.\n"
+        #                                                        "Assigned variant production time randomly.")
         return variant_process_time_array
 
 

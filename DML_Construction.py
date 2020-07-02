@@ -13,10 +13,10 @@ def process_time_array(rms_variant_process_time_array, shrinking_ratio_lower_bon
     return rms_variant_process_time_array
 
 
-def layout_reconfiguration_time(dml_process_time_array, cfg_time_lower_bond, cfg_time_upper_bond):
-    for i in range(len(dml_process_time_array)):
-        dml_process_time_array[i] = random.uniform(cfg_time_lower_bond, cfg_time_upper_bond)
-    return dml_process_time_array
+def layout_reconfiguration_time(variant_reconfigure_time_array, cfg_time_lower_bond, cfg_time_upper_bond):
+    for variant in range(len(variant_reconfigure_time_array)):
+        variant_reconfigure_time_array[variant] *= random.uniform(cfg_time_lower_bond, cfg_time_upper_bond)
+    return variant_reconfigure_time_array
 
 
 def min_batch(production_time_array, variant_reconfiguring_time, expand_ratio):

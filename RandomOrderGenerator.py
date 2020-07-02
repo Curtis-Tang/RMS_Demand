@@ -24,6 +24,7 @@ def gen_random_order_list(order_size, time_span_second, product_variant_num, sma
     random_order_list = []
     mean = []
     batch_size = []
+    variant_record = []
 
     for order_seq in range(order_size):
         random_order_list.append([random.randint(0, int(time_span_second)),  # Order time
@@ -31,11 +32,9 @@ def gen_random_order_list(order_size, time_span_second, product_variant_num, sma
 
     for order in range(len(random_order_list)):
         variant_count[random_order_list[order][1]] += 1
-    print(variant_count)
 
     for variant in range(product_variant_num):
         mean.append(random.randint(smallest_mean, largest_mean))
-    print(mean)
 
     for variant in range(len(mean)):
         batch_size.append(np.random.poisson(mean[variant], variant_count[variant]))
@@ -50,7 +49,9 @@ def gen_random_order_list(order_size, time_span_second, product_variant_num, sma
         del batch_size[random_order_list[order_seq][1]][0]
     random_order_list = sorted(random_order_list)
 
-    print(random_order_list)
-    return random_order_list
+    for variant in range(product_variant_num):
+        variant_record.append([variant_count[variant], mean[variant]])
+
+    return random_order_list, variant_record
 
 
